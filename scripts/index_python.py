@@ -1,3 +1,4 @@
+import sys
 import os.path
 import datetime
 import re
@@ -8,8 +9,12 @@ from whoosh.lang.stopwords import stoplists
 from whoosh.util import now
 
 
-sourcedir = "/Users/matt/Presentation/cpython/Doc"
-indexdir = "/Users/matt/Presentation/index"
+sourcedir = os.path.abspath(sys.argv[1])
+indexdir = os.path.abspath(sys.argv[2])
+
+revfile = None
+if len(sys.argv) > 3:
+    revfile = sys.argv[3]
 
 title_re = re.compile("^\s*((\w|[:]).*?)\n[-*=#+%]{3,}$", re.MULTILINE)
 charclass_re = re.compile(":(?P<cls>[^:]+):`~?(?P<ref>[^`\n]+)`", re.MULTILINE)
@@ -51,14 +56,15 @@ class PydocSchema(fields.SchemaClass):
     mod = fields.TEXT(analyzer=tech_ana, phrase=False)
 
 
-t = now()
 rev_data = {}
-with open("revs.txt", "rb") as f:
-    for line in f:
-        filename, timestr, tzstr, revnum = line.strip().split()
-        dt = datetime.datetime.fromtimestamp(int(timestr))
-        rev_data[filename] = (dt, int(revnum))
-print now() - t
+if revfile:
+    t = now()
+    with open(revfile, "rb") as f:
+        for line in f:
+            filename, timestr, tzstr, revnum = line.strip().split()
+            dt = datetime.datetime.fromtimestamp(int(timestr))
+            rev_data[filename] = (dt, int(revnum))
+    print now() - t
 
 
 ix = index.create_in(indexdir, PydocSchema)

@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flaskext.mako import render_template, init_mako
 from flask import request
@@ -5,11 +6,11 @@ from flask import request
 from whoosh import index, qparser, highlight
 from whoosh.qparser.dateparse import DateParserPlugin
 
-SOURCEDIR = "/Users/matt/Presentation/cpython/Doc"
-INDEXDIR = "/Users/matt/Presentation/index"
+SOURCEDIR = os.environ.get("DEMOSOURCE", "cpython/Doc")
+INDEXDIR = os.environ.get("DEMOINDEX", "index")
 
 app = Flask(__name__)
-app.config["MAKO_DIR"] = '/Users/matt/Presentation/templates'
+app.config["MAKO_DIR"] = os.environ.get("DEMOTEMPLATES", "templates")
 init_mako(app)
 
 

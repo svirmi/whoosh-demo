@@ -4,7 +4,7 @@ import sys
 from subprocess import check_output
 
 
-sourcedir = "/Users/matt/Presentation/cpython/Doc"
+sourcedir = sys.argv[1]
 
 
 for dirpath, dirnames, filenames in os.walk(sourcedir):
