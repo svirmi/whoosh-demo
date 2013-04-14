@@ -8,6 +8,8 @@ This is a version of the quick demo application I made for my PyCon 2013 present
 
 The demo source has two halves. It contains code to index the Python documentation, and a simple Flask web app to search and inspect a Whoosh index.
 
+THE CODE IN THIS REPOSITORY IS RELEASED INTO THE PUBLIC DOMAIN.
+
 
 Requirements
 ------------
